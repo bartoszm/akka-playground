@@ -1,0 +1,699 @@
+{
+  "akka": {
+    "actor": {
+      "creation-timeout": "20s",
+      "debug": {
+        "autoreceive": "off",
+        "event-stream": "off",
+        "fsm": "off",
+        "lifecycle": "off",
+        "receive": "off",
+        "router-misconfiguration": "off",
+        "unhandled": "off"
+      },
+      "default-dispatcher": {
+        "attempt-teamwork": "on",
+        "default-executor": {
+          "fallback": "fork-join-executor"
+        },
+        "executor": "default-executor",
+        "fork-join-executor": {
+          "parallelism-factor": 3,
+          "parallelism-max": 64,
+          "parallelism-min": 8
+        },
+        "mailbox-requirement": "",
+        "shutdown-timeout": "1s",
+        "thread-pool-executor": {
+          "allow-core-timeout": "on",
+          "core-pool-size-factor": 3,
+          "core-pool-size-max": 64,
+          "core-pool-size-min": 8,
+          "keep-alive-time": "60s",
+          "max-pool-size-factor": 3,
+          "max-pool-size-max": 64,
+          "max-pool-size-min": 8,
+          "task-queue-size": -1,
+          "task-queue-type": "linked"
+        },
+        "throughput": 5,
+        "throughput-deadline-time": "0ms",
+        "type": "Dispatcher"
+      },
+      "default-mailbox": {
+        "mailbox-capacity": 1000,
+        "mailbox-push-timeout-time": "10s",
+        "mailbox-type": "akka.dispatch.UnboundedMailbox",
+        "stash-capacity": -1
+      },
+      "deployment": {
+        "default": {
+          "cluster": {
+            "allow-local-routees": "on",
+            "enabled": "off",
+            "max-nr-of-instances-per-node": 1,
+            "routees-path": "",
+            "use-role": ""
+          },
+          "dispatcher": "",
+          "mailbox": "",
+          "metrics-selector": "mix",
+          "nr-of-instances": 1,
+          "remote": "",
+          "resizer": {
+            "backoff-rate": 0.1,
+            "backoff-threshold": 0.3,
+            "enabled": "off",
+            "lower-bound": 1,
+            "messages-per-resize": 10,
+            "pressure-threshold": 1,
+            "rampup-rate": 0.2,
+            "upper-bound": 10
+          },
+          "routees": {
+            "paths": []
+          },
+          "router": "from-code",
+          "tail-chopping-router": {
+            "interval": "10 milliseconds"
+          },
+          "target": {
+            "nodes": []
+          },
+          "virtual-nodes-factor": 10,
+          "within": "5 seconds"
+        }
+      },
+      "dsl": {
+        "default-timeout": "5s",
+        "inbox-size": 1000
+      },
+      "guardian-supervisor-strategy": "akka.actor.DefaultSupervisorStrategy",
+      "mailbox": {
+        "bounded-deque-based": {
+          "mailbox-type": "akka.dispatch.BoundedDequeBasedMailbox"
+        },
+        "bounded-queue-based": {
+          "mailbox-type": "akka.dispatch.BoundedMailbox"
+        },
+        "requirements": {
+          "akka.dispatch.BoundedDequeBasedMessageQueueSemantics": "akka.actor.mailbox.bounded-deque-based",
+          "akka.dispatch.BoundedMessageQueueSemantics": "akka.actor.mailbox.bounded-queue-based",
+          "akka.dispatch.DequeBasedMessageQueueSemantics": "akka.actor.mailbox.unbounded-deque-based",
+          "akka.dispatch.MultipleConsumerSemantics": "akka.actor.mailbox.unbounded-queue-based",
+          "akka.dispatch.UnboundedDequeBasedMessageQueueSemantics": "akka.actor.mailbox.unbounded-deque-based",
+          "akka.dispatch.UnboundedMessageQueueSemantics": "akka.actor.mailbox.unbounded-queue-based"
+        },
+        "unbounded-deque-based": {
+          "mailbox-type": "akka.dispatch.UnboundedDequeBasedMailbox"
+        },
+        "unbounded-queue-based": {
+          "mailbox-type": "akka.dispatch.UnboundedMailbox"
+        }
+      },
+      "provider": "akka.actor.LocalActorRefProvider",
+      "reaper-interval": "5s",
+      "router": {
+        "type-mapping": {
+          "adaptive-group": "akka.cluster.routing.AdaptiveLoadBalancingGroup",
+          "adaptive-pool": "akka.cluster.routing.AdaptiveLoadBalancingPool",
+          "balancing-pool": "akka.routing.BalancingPool",
+          "broadcast-group": "akka.routing.BroadcastGroup",
+          "broadcast-pool": "akka.routing.BroadcastPool",
+          "consistent-hashing-group": "akka.routing.ConsistentHashingGroup",
+          "consistent-hashing-pool": "akka.routing.ConsistentHashingPool",
+          "from-code": "akka.routing.NoRouter",
+          "random-group": "akka.routing.RandomGroup",
+          "random-pool": "akka.routing.RandomPool",
+          "round-robin-group": "akka.routing.RoundRobinGroup",
+          "round-robin-pool": "akka.routing.RoundRobinPool",
+          "scatter-gather-group": "akka.routing.ScatterGatherFirstCompletedGroup",
+          "scatter-gather-pool": "akka.routing.ScatterGatherFirstCompletedPool",
+          "smallest-mailbox-pool": "akka.routing.SmallestMailboxPool",
+          "tail-chopping-group": "akka.routing.TailChoppingGroup",
+          "tail-chopping-pool": "akka.routing.TailChoppingPool"
+        }
+      },
+      "serialization-bindings": {
+        "[B": "bytes",
+        "akka.actor.ActorSelectionMessage": "akka-containers",
+        "akka.cluster.ClusterMessage": "akka-cluster",
+        "akka.contrib.pattern.DistributedPubSubMessage": "akka-pubsub",
+        "akka.persistence.serialization.Message": "akka-persistence-message",
+        "akka.persistence.serialization.Snapshot": "akka-persistence-snapshot",
+        "akka.remote.DaemonMsgCreate": "daemon-create",
+        "com.google.protobuf.GeneratedMessage": "proto",
+        "java.io.Serializable": "java"
+      },
+      "serialize-creators": "off",
+      "serialize-messages": "off",
+      "serializers": {
+        "akka-cluster": "akka.cluster.protobuf.ClusterMessageSerializer",
+        "akka-containers": "akka.remote.serialization.MessageContainerSerializer",
+        "akka-persistence-message": "akka.persistence.serialization.MessageSerializer",
+        "akka-persistence-snapshot": "akka.persistence.serialization.SnapshotSerializer",
+        "akka-pubsub": "akka.contrib.pattern.protobuf.DistributedPubSubMessageSerializer",
+        "bytes": "akka.serialization.ByteArraySerializer",
+        "daemon-create": "akka.remote.serialization.DaemonMsgCreateSerializer",
+        "java": "akka.serialization.JavaSerializer",
+        "proto": "akka.remote.serialization.ProtobufSerializer"
+      },
+      "typed": {
+        "timeout": "5s"
+      },
+      "unstarted-push-timeout": "10s"
+    },
+    "cluster": {
+      "auto-down": "off",
+      "auto-down-unreachable-after": "off",
+      "failure-detector": {
+        "acceptable-heartbeat-pause": "3 s",
+        "expected-response-after": "5 s",
+        "heartbeat-interval": "1 s",
+        "implementation-class": "akka.remote.PhiAccrualFailureDetector",
+        "max-sample-size": 1000,
+        "min-std-deviation": "100 ms",
+        "monitored-by-nr-of-members": 5,
+        "threshold": 8
+      },
+      "gossip-different-view-probability": 0.8,
+      "gossip-interval": "1s",
+      "gossip-time-to-live": "2s",
+      "jmx": {
+        "enabled": "on"
+      },
+      "leader-actions-interval": "1s",
+      "log-info": "on",
+      "metrics": {
+        "collect-interval": "3s",
+        "collector-class": "akka.cluster.SigarMetricsCollector",
+        "enabled": "on",
+        "gossip-interval": "3s",
+        "moving-average-half-life": "12s"
+      },
+      "min-nr-of-members": 1,
+      "periodic-tasks-initial-delay": "1s",
+      "publish-stats-interval": "off",
+      "reduce-gossip-different-view-probability": 400,
+      "retry-unsuccessful-join-after": "10s",
+      "role": {},
+      "roles": [],
+      "scheduler": {
+        "tick-duration": "33ms",
+        "ticks-per-wheel": 512
+      },
+      "seed-node-timeout": "5s",
+      "seed-nodes": [],
+      "unreachable-nodes-reaper-interval": "1s",
+      "use-dispatcher": ""
+    },
+    "contrib": {
+      "cluster": {
+        "client": {
+          "mailbox": {
+            "mailbox-type": "akka.dispatch.UnboundedDequeBasedMailbox",
+            "stash-capacity": 1000
+          }
+        },
+        "pub-sub": {
+          "gossip-interval": "1s",
+          "max-delta-elements": 3000,
+          "name": "distributedPubSubMediator",
+          "removed-time-to-live": "120s",
+          "role": "",
+          "routing-logic": "random"
+        },
+        "receptionist": {
+          "name": "receptionist",
+          "number-of-contacts": 3,
+          "response-tunnel-receive-timeout": "30s",
+          "role": ""
+        },
+        "sharding": {
+          "buffer-size": 100000,
+          "coordinator-failure-backoff": "10 s",
+          "guardian-name": "sharding",
+          "handoff-timeout": "60 s",
+          "least-shard-allocation-strategy": {
+            "max-simultaneous-rebalance": 3,
+            "rebalance-threshold": 10
+          },
+          "rebalance-interval": "10 s",
+          "retry-interval": "2 s",
+          "role": "",
+          "snapshot-interval": "3600 s"
+        }
+      }
+    },
+    "daemonic": "off",
+    "extensions": [],
+    "home": "",
+    "io": {
+      "pinned-dispatcher": {
+        "executor": "thread-pool-executor",
+        "thread-pool-executor": {
+          "allow-core-pool-timeout": "off"
+        },
+        "type": "PinnedDispatcher"
+      },
+      "tcp": {
+        "batch-accept-limit": 10,
+        "direct-buffer-pool-limit": 1000,
+        "direct-buffer-size": "128 KiB",
+        "file-io-dispatcher": "akka.actor.default-dispatcher",
+        "file-io-transferTo-limit": "512 KiB",
+        "finish-connect-retries": 5,
+        "management-dispatcher": "akka.actor.default-dispatcher",
+        "max-channels": 256000,
+        "max-received-message-size": "unlimited",
+        "nr-of-selectors": 1,
+        "register-timeout": "5s",
+        "selector-association-retries": 10,
+        "selector-dispatcher": "akka.io.pinned-dispatcher",
+        "trace-logging": "off",
+        "windows-connection-abort-workaround-enabled": "auto",
+        "worker-dispatcher": "akka.actor.default-dispatcher"
+      },
+      "udp": {
+        "direct-buffer-pool-limit": 1000,
+        "direct-buffer-size": "128 KiB",
+        "management-dispatcher": "akka.actor.default-dispatcher",
+        "max-channels": 4096,
+        "nr-of-selectors": 1,
+        "receive-throughput": 3,
+        "received-message-size-limit": "unlimited",
+        "select-timeout": "infinite",
+        "selector-association-retries": 10,
+        "selector-dispatcher": "akka.io.pinned-dispatcher",
+        "trace-logging": "off",
+        "worker-dispatcher": "akka.actor.default-dispatcher"
+      },
+      "udp-connected": {
+        "direct-buffer-pool-limit": 1000,
+        "direct-buffer-size": "128 KiB",
+        "management-dispatcher": "akka.actor.default-dispatcher",
+        "max-channels": 4096,
+        "nr-of-selectors": 1,
+        "receive-throughput": 3,
+        "received-message-size-limit": "unlimited",
+        "select-timeout": "infinite",
+        "selector-association-retries": 10,
+        "selector-dispatcher": "akka.io.pinned-dispatcher",
+        "trace-logging": "off",
+        "worker-dispatcher": "akka.actor.default-dispatcher"
+      }
+    },
+    "jvm-exit-on-fatal-error": "on",
+    "log-config-on-start": "on",
+    "log-dead-letters": 10,
+    "log-dead-letters-during-shutdown": "on",
+    "logger-startup-timeout": "5s",
+    "loggers": [
+      "akka.event.Logging$DefaultLogger"
+    ],
+    "loglevel": "DEBUG",
+    "persistence": {
+      "at-least-once-delivery": {
+        "max-unconfirmed-messages": 100000,
+        "redeliver-interval": "5s",
+        "warn-after-number-of-unconfirmed-attempts": 5
+      },
+      "dispatchers": {
+        "default-plugin-dispatcher": {
+          "executor": "thread-pool-executor",
+          "type": "PinnedDispatcher"
+        },
+        "default-replay-dispatcher": {
+          "executor": "fork-join-executor",
+          "fork-join-executor": {
+            "parallelism-max": 8,
+            "parallelism-min": 2
+          },
+          "type": "Dispatcher"
+        },
+        "default-stream-dispatcher": {
+          "executor": "fork-join-executor",
+          "fork-join-executor": {
+            "parallelism-max": 8,
+            "parallelism-min": 2
+          },
+          "type": "Dispatcher"
+        }
+      },
+      "journal": {
+        "inmem": {
+          "class": "akka.persistence.journal.inmem.InmemJournal",
+          "plugin-dispatcher": "akka.actor.default-dispatcher"
+        },
+        "leveldb": {
+          "checksum": "off",
+          "class": "akka.persistence.journal.leveldb.LeveldbJournal",
+          "dir": "journal",
+          "fsync": "on",
+          "native": "on",
+          "plugin-dispatcher": "akka.persistence.dispatchers.default-plugin-dispatcher",
+          "replay-dispatcher": "akka.persistence.dispatchers.default-replay-dispatcher"
+        },
+        "leveldb-shared": {
+          "class": "akka.persistence.journal.leveldb.SharedLeveldbJournal",
+          "plugin-dispatcher": "akka.actor.default-dispatcher",
+          "store": {
+            "checksum": "off",
+            "dir": "journal",
+            "fsync": "on",
+            "native": "on",
+            "replay-dispatcher": "akka.persistence.dispatchers.default-plugin-dispatcher",
+            "store-dispatcher": "akka.persistence.dispatchers.default-plugin-dispatcher"
+          },
+          "timeout": "10s"
+        },
+        "max-confirmation-batch-size": 10000,
+        "max-deletion-batch-size": 10000,
+        "max-message-batch-size": 200,
+        "plugin": "akka.persistence.journal.leveldb"
+      },
+      "snapshot-store": {
+        "local": {
+          "class": "akka.persistence.snapshot.local.LocalSnapshotStore",
+          "dir": "snapshots",
+          "plugin-dispatcher": "akka.persistence.dispatchers.default-plugin-dispatcher",
+          "stream-dispatcher": "akka.persistence.dispatchers.default-stream-dispatcher"
+        },
+        "plugin": "akka.persistence.snapshot-store.local"
+      },
+      "view": {
+        "auto-update": "on",
+        "auto-update-interval": "5s",
+        "auto-update-replay-max": -1
+      }
+    },
+    "remote": {
+      "adapters": {
+        "gremlin": "akka.remote.transport.FailureInjectorProvider",
+        "trttl": "akka.remote.transport.ThrottlerProvider"
+      },
+      "backoff-interval": "5 ms",
+      "backoff-remote-dispatcher": {
+        "executor": "fork-join-executor",
+        "fork-join-executor": {
+          "parallelism-max": 2,
+          "parallelism-min": 2
+        },
+        "type": "Dispatcher"
+      },
+      "command-ack-timeout": "30 s",
+      "default-remote-dispatcher": {
+        "executor": "fork-join-executor",
+        "fork-join-executor": {
+          "parallelism-max": 2,
+          "parallelism-min": 2
+        },
+        "type": "Dispatcher"
+      },
+      "enabled-transports": [
+        "akka.remote.netty.tcp"
+      ],
+      "flush-wait-on-shutdown": "2 s",
+      "gremlin": {
+        "debug": "off"
+      },
+      "initial-system-message-delivery-timeout": "3 m",
+      "log-buffer-size-exceeding": 50000,
+      "log-frame-size-exceeding": "off",
+      "log-received-messages": "off",
+      "log-remote-lifecycle-events": "on",
+      "log-sent-messages": "off",
+      "netty": {
+        "ssl": {
+          "applied-adapters": [],
+          "backlog": 4096,
+          "client-socket-worker-pool": {
+            "pool-size-factor": 1,
+            "pool-size-max": 2,
+            "pool-size-min": 2
+          },
+          "connection-timeout": "15 s",
+          "enable-ssl": true,
+          "hostname": "",
+          "maximum-frame-size": "128000b",
+          "port": 2552,
+          "receive-buffer-size": "256000b",
+          "security": {
+            "enabled-algorithms": [
+              "TLS_RSA_WITH_AES_128_CBC_SHA"
+            ],
+            "key-password": "changeme",
+            "key-store": "keystore",
+            "key-store-password": "changeme",
+            "protocol": "TLSv1",
+            "random-number-generator": "",
+            "trust-store": "truststore",
+            "trust-store-password": "changeme"
+          },
+          "send-buffer-size": "256000b",
+          "server-socket-worker-pool": {
+            "pool-size-factor": 1,
+            "pool-size-max": 2,
+            "pool-size-min": 2
+          },
+          "tcp-keepalive": "on",
+          "tcp-nodelay": "on",
+          "tcp-reuse-addr": "off-for-windows",
+          "transport-class": "akka.remote.transport.netty.NettyTransport",
+          "transport-protocol": "tcp",
+          "use-dispatcher-for-io": "",
+          "write-buffer-high-water-mark": "0b",
+          "write-buffer-low-water-mark": "0b"
+        },
+        "tcp": {
+          "applied-adapters": [],
+          "backlog": 4096,
+          "client-socket-worker-pool": {
+            "pool-size-factor": 1,
+            "pool-size-max": 2,
+            "pool-size-min": 2
+          },
+          "connection-timeout": "15 s",
+          "enable-ssl": false,
+          "hostname": "",
+          "maximum-frame-size": "128000b",
+          "port": 2552,
+          "receive-buffer-size": "256000b",
+          "send-buffer-size": "256000b",
+          "server-socket-worker-pool": {
+            "pool-size-factor": 1,
+            "pool-size-max": 2,
+            "pool-size-min": 2
+          },
+          "tcp-keepalive": "on",
+          "tcp-nodelay": "on",
+          "tcp-reuse-addr": "off-for-windows",
+          "transport-class": "akka.remote.transport.netty.NettyTransport",
+          "transport-protocol": "tcp",
+          "use-dispatcher-for-io": "",
+          "write-buffer-high-water-mark": "0b",
+          "write-buffer-low-water-mark": "0b"
+        },
+        "udp": {
+          "applied-adapters": [],
+          "backlog": 4096,
+          "client-socket-worker-pool": {
+            "pool-size-factor": 1,
+            "pool-size-max": 2,
+            "pool-size-min": 2
+          },
+          "connection-timeout": "15 s",
+          "enable-ssl": false,
+          "hostname": "",
+          "maximum-frame-size": "128000b",
+          "port": 2552,
+          "receive-buffer-size": "256000b",
+          "send-buffer-size": "256000b",
+          "server-socket-worker-pool": {
+            "pool-size-factor": 1,
+            "pool-size-max": 2,
+            "pool-size-min": 2
+          },
+          "tcp-keepalive": "on",
+          "tcp-nodelay": "on",
+          "tcp-reuse-addr": "off-for-windows",
+          "transport-class": "akka.remote.transport.netty.NettyTransport",
+          "transport-protocol": "udp",
+          "use-dispatcher-for-io": "",
+          "write-buffer-high-water-mark": "0b",
+          "write-buffer-low-water-mark": "0b"
+        }
+      },
+      "prune-quarantine-marker-after": "5 d",
+      "require-cookie": "off",
+      "resend-interval": "2 s",
+      "retry-gate-closed-for": "5 s",
+      "secure-cookie": "",
+      "shutdown-timeout": "10 s",
+      "startup-timeout": "10 s",
+      "system-message-ack-piggyback-timeout": "0.3 s",
+      "system-message-buffer-size": 1000,
+      "transport-failure-detector": {
+        "acceptable-heartbeat-pause": "20 s",
+        "heartbeat-interval": "4 s",
+        "implementation-class": "akka.remote.DeadlineFailureDetector"
+      },
+      "trusted-selection-paths": [],
+      "untrusted-mode": "off",
+      "use-dispatcher": "akka.remote.default-remote-dispatcher",
+      "use-passive-connections": "on",
+      "watch-failure-detector": {
+        "acceptable-heartbeat-pause": "10 s",
+        "expected-response-after": "3 s",
+        "heartbeat-interval": "1 s",
+        "implementation-class": "akka.remote.PhiAccrualFailureDetector",
+        "max-sample-size": 200,
+        "min-std-deviation": "100 ms",
+        "threshold": 10,
+        "unreachable-nodes-reaper-interval": "1s"
+      }
+    },
+    "scheduler": {
+      "implementation": "akka.actor.LightArrayRevolverScheduler",
+      "shutdown-timeout": "5s",
+      "tick-duration": "10ms",
+      "ticks-per-wheel": 512
+    },
+    "stdout-loglevel": "WARNING",
+    "test": {
+      "calling-thread-dispatcher": {
+        "type": "akka.testkit.CallingThreadDispatcherConfigurator"
+      },
+      "default-timeout": "5s",
+      "filter-leeway": "3s",
+      "single-expect-default": "3s",
+      "timefactor": 1
+    },
+    "version": "2.3.7"
+  },
+  "awt": {
+    "toolkit": "sun.awt.X11.XToolkit"
+  },
+  "file": {
+    "encoding": {
+      "pkg": "sun.io"
+    },
+    "separator": "/"
+  },
+  "idea": {
+    "launcher": {
+      "bin": {
+        "path": "/home/bartosz/idea-14/bin"
+      },
+      "port": "7535"
+    }
+  },
+  "java": {
+    "awt": {
+      "graphicsenv": "sun.awt.X11GraphicsEnvironment",
+      "printerjob": "sun.print.PSPrinterJob"
+    },
+    "class": {
+      "path": "/applications/jdk1.8.0_25/jre/lib/resources.jar:/applications/jdk1.8.0_25/jre/lib/jce.jar:/applications/jdk1.8.0_25/jre/lib/deploy.jar:/applications/jdk1.8.0_25/jre/lib/management-agent.jar:/applications/jdk1.8.0_25/jre/lib/charsets.jar:/applications/jdk1.8.0_25/jre/lib/jsse.jar:/applications/jdk1.8.0_25/jre/lib/jfr.jar:/applications/jdk1.8.0_25/jre/lib/javaws.jar:/applications/jdk1.8.0_25/jre/lib/plugin.jar:/applications/jdk1.8.0_25/jre/lib/rt.jar:/applications/jdk1.8.0_25/jre/lib/jfxswt.jar:/applications/jdk1.8.0_25/jre/lib/ext/zipfs.jar:/applications/jdk1.8.0_25/jre/lib/ext/localedata.jar:/applications/jdk1.8.0_25/jre/lib/ext/jfxrt.jar:/applications/jdk1.8.0_25/jre/lib/ext/sunec.jar:/applications/jdk1.8.0_25/jre/lib/ext/cldrdata.jar:/applications/jdk1.8.0_25/jre/lib/ext/sunpkcs11.jar:/applications/jdk1.8.0_25/jre/lib/ext/sunjce_provider.jar:/applications/jdk1.8.0_25/jre/lib/ext/dnsns.jar:/applications/jdk1.8.0_25/jre/lib/ext/nashorn.jar:/home/bartosz/projects/cameleon/dev/playground/akka/target/classes:/home/bartosz/.m2/repository/com/typesafe/akka/akka-testkit_2.11/2.3.7/akka-testkit_2.11-2.3.7.jar:/home/bartosz/.m2/repository/org/scala-lang/scala-library/2.11.4/scala-library-2.11.4.jar:/home/bartosz/.m2/repository/com/typesafe/akka/akka-actor_2.11/2.3.7/akka-actor_2.11-2.3.7.jar:/home/bartosz/.m2/repository/com/typesafe/config/1.2.1/config-1.2.1.jar:/home/bartosz/.m2/repository/com/typesafe/akka/akka-contrib_2.11/2.3.7/akka-contrib_2.11-2.3.7.jar:/home/bartosz/.m2/repository/com/typesafe/akka/akka-remote_2.11/2.3.7/akka-remote_2.11-2.3.7.jar:/home/bartosz/.m2/repository/io/netty/netty/3.8.0.Final/netty-3.8.0.Final.jar:/home/bartosz/.m2/repository/org/uncommons/maths/uncommons-maths/1.2.2a/uncommons-maths-1.2.2a.jar:/home/bartosz/.m2/repository/com/typesafe/akka/akka-cluster_2.11/2.3.7/akka-cluster_2.11-2.3.7.jar:/home/bartosz/.m2/repository/com/typesafe/akka/akka-persistence-experimental_2.11/2.3.7/akka-persistence-experimental_2.11-2.3.7.jar:/home/bartosz/.m2/repository/org/iq80/leveldb/leveldb/0.5/leveldb-0.5.jar:/home/bartosz/.m2/repository/org/iq80/leveldb/leveldb-api/0.5/leveldb-api-0.5.jar:/home/bartosz/.m2/repository/com/google/guava/guava/12.0/guava-12.0.jar:/home/bartosz/.m2/repository/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar:/home/bartosz/.m2/repository/org/fusesource/leveldbjni/leveldbjni-all/1.7/leveldbjni-all-1.7.jar:/home/bartosz/.m2/repository/org/fusesource/leveldbjni/leveldbjni/1.7/leveldbjni-1.7.jar:/home/bartosz/.m2/repository/org/fusesource/hawtjni/hawtjni-runtime/1.8/hawtjni-runtime-1.8.jar:/home/bartosz/.m2/repository/org/fusesource/leveldbjni/leveldbjni-osx/1.5/leveldbjni-osx-1.5.jar:/home/bartosz/.m2/repository/org/fusesource/leveldbjni/leveldbjni-linux32/1.5/leveldbjni-linux32-1.5.jar:/home/bartosz/.m2/repository/org/fusesource/leveldbjni/leveldbjni-linux64/1.5/leveldbjni-linux64-1.5.jar:/home/bartosz/.m2/repository/org/fusesource/leveldbjni/leveldbjni-win32/1.5/leveldbjni-win32-1.5.jar:/home/bartosz/.m2/repository/org/fusesource/leveldbjni/leveldbjni-win64/1.5/leveldbjni-win64-1.5.jar:/home/bartosz/.m2/repository/com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0.jar:/home/bartosz/idea-14/lib/idea_rt.jar",
+      "version": "52.0"
+    },
+    "endorsed": {
+      "dirs": "/applications/jdk1.8.0_25/jre/lib/endorsed"
+    },
+    "ext": {
+      "dirs": "/applications/jdk1.8.0_25/jre/lib/ext:/usr/java/packages/lib/ext"
+    },
+    "home": "/applications/jdk1.8.0_25/jre",
+    "io": {
+      "tmpdir": "/tmp"
+    },
+    "library": {
+      "path": "/home/bartosz/idea-14/bin::/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib"
+    },
+    "runtime": {
+      "name": "Java(TM) SE Runtime Environment",
+      "version": "1.8.0_25-b17"
+    },
+    "specification": {
+      "name": "Java Platform API Specification",
+      "vendor": "Oracle Corporation",
+      "version": "1.8"
+    },
+    "vendor": {
+      "url": {
+        "bug": "http://bugreport.sun.com/bugreport/"
+      }
+    },
+    "version": "1.8.0_25",
+    "vm": {
+      "info": "mixed mode",
+      "name": "Java HotSpot(TM) 64-Bit Server VM",
+      "specification": {
+        "name": "Java Virtual Machine Specification",
+        "vendor": "Oracle Corporation",
+        "version": "1.8"
+      },
+      "vendor": "Oracle Corporation",
+      "version": "25.25-b02"
+    }
+  },
+  "line": {
+    "separator": "\n"
+  },
+  "os": {
+    "arch": "amd64",
+    "name": "Linux",
+    "version": "3.13.0-24-generic"
+  },
+  "path": {
+    "separator": ":"
+  },
+  "sun": {
+    "arch": {
+      "data": {
+        "model": "64"
+      }
+    },
+    "boot": {
+      "class": {
+        "path": "/applications/jdk1.8.0_25/jre/lib/resources.jar:/applications/jdk1.8.0_25/jre/lib/rt.jar:/applications/jdk1.8.0_25/jre/lib/sunrsasign.jar:/applications/jdk1.8.0_25/jre/lib/jsse.jar:/applications/jdk1.8.0_25/jre/lib/jce.jar:/applications/jdk1.8.0_25/jre/lib/charsets.jar:/applications/jdk1.8.0_25/jre/lib/jfr.jar:/applications/jdk1.8.0_25/jre/classes"
+      },
+      "library": {
+        "path": "/applications/jdk1.8.0_25/jre/lib/amd64"
+      }
+    },
+    "cpu": {
+      "endian": "little",
+      "isalist": ""
+    },
+    "desktop": "gnome",
+    "io": {
+      "unicode": {
+        "encoding": "UnicodeLittle"
+      }
+    },
+    "java": {
+      "command": "com.intellij.rt.execution.application.AppMain org.nugae.akka.mailbox.MailboxExample",
+      "launcher": "SUN_STANDARD"
+    },
+    "jnu": {
+      "encoding": "UTF-8"
+    },
+    "management": {
+      "compiler": "HotSpot 64-Bit Tiered Compilers"
+    },
+    "os": {
+      "patch": {
+        "level": "unknown"
+      }
+    }
+  },
+  "user": {
+    "country": "US",
+    "dir": "/home/bartosz/projects/cameleon/dev/playground",
+    "home": "/home/bartosz",
+    "language": "en",
+    "name": "bartosz",
+    "timezone": "Europe/Warsaw"
+  }
+}
