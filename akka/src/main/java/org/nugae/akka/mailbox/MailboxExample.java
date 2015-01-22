@@ -1,9 +1,7 @@
 package org.nugae.akka.mailbox;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
-import akka.actor.UntypedActor;
+import actor.util.DeadLetterListener;
+import akka.actor.*;
 import akka.dispatch.BoundedMessageQueueSemantics;
 import akka.dispatch.RequiresMessageQueue;
 import akka.pattern.Patterns;
@@ -20,9 +18,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class MailboxExample {
     public static void main(String[] args) {
+        //example of how to merge context
         Config config = ConfigFactory.parseURL(MailboxExample.class.getResource("/mailbox.conf"));
 
         ActorSystem sys = ActorSystem.create("MySystem", config);
+
+        //add dead letter listener
+        ActorRef dl = sys.actorOf(Props.create(DeadLetterListener.class), "dll");
+        sys.eventStream().subscribe(dl, DeadLetter.class);
 
 
         ActorRef lazyActor = sys.actorOf(Props.create(VeryLazyActor.class), "lazyActor");
@@ -60,7 +63,7 @@ class CustomLazyActor extends UntypedActor implements RequiresMessageQueue<Custo
     @Override
     public void onReceive(Object msg) throws Exception {
         //wait a bit
-        TimeUnit.MILLISECONDS.sleep(900);
+        TimeUnit.MILLISECONDS.sleep(2000);
         System.out.println("CCQ: " + msg);
     }
 }
